@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://bl01vfpmhv4hw"]
+
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_4l2cw"]
+[ext_resource type="Texture2D" uid="uid://cm3horqm2gu8u" path="res://Assets/Tilesheet/monochrome-transparent.png" id="2_26bs8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xq44e"]
+atlas = ExtResource("2_26bs8")
+region = Rect2(306, 153, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_55t3w"]
+atlas = ExtResource("2_26bs8")
+region = Rect2(323, 153, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mj7l"]
+atlas = ExtResource("2_26bs8")
+region = Rect2(340, 153, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d37g5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xq44e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_55t3w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7mj7l")
+}],
+"loop": true,
+"name": &"move",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_43s5x"]
+size = Vector2(10, 11)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_byrbn"]
+radius = 24.0
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_4l2cw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_d37g5")
+animation = &"move"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2.5)
+shape = SubResource("RectangleShape2D_43s5x")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="DestroyArea" type="Area2D" parent="."]
+
+[node name="DestroyAreaCS" type="CollisionShape2D" parent="DestroyArea"]
+shape = SubResource("CircleShape2D_byrbn")
+
+[connection signal="input_event" from="DestroyArea" to="." method="_on_destroy_area_input_event"]
